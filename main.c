@@ -3,18 +3,40 @@
 #include <string.h>
 #include <stdlib.h>
 #define BSZ '\0'
-const char* keys = {"char", "int", "double", "string", "bool"};
+#define tt TokenType
+#define t Token
+char *keys[100] = {"char", "int", "double", "string", "bool"};
+typedef enum {
+	UNKNOWN,
+	TYPE,
+	EQUAL
+} TokenType;
 
-void parser(char *word, char character)
-{
-	if(character == '0') {
-		printf("bu word\n");
-		for(int i = 0;i < strlen(word);i++) {
-			printf("%c\n", word[i]);
+typedef struct {
+	char *token;
+	tt tokenType;
+} Token;
+
+t*Tokens[100];
+
+void tokenizer(char *word) {
+	for(int i = 0;i < 10;i++) {
+		if(strcmp(keys[i], word)) {
+			printf("%s", word);	
 		}
-	} else if (character!= '0') {
-		printf("bu character\n");
-		printf("%c\n", character);
+	}
+	t token;
+	strcpy(word, token.token);
+	// token.tokenType = 
+}
+
+void parser(char *word)
+{
+	char support_char;
+	if(word[0] == '=') {
+		support_char = word[0];
+	} else if(word[0] != '=') {
+		tokenizer(word);
 	}
 }
 
@@ -22,21 +44,18 @@ void parser(char *word, char character)
 void init_lexer(char *code) {
 	char* word = (char*)malloc(200 * sizeof(char*));
 	int word_len = 0;
-	char for_char = 'd';
 	int i =0;
 	while(code[i] != BSZ) {
-		if(!isspace(code[i])) {x
+		if(!isspace(code[i])) {
 			word[word_len] = code[i];
 			word_len++;
 		} else if(isspace(code[i])) {
 			if (word_len == 1) {
-				for_char = code[i];
 				printf("%c", code[i]);
-				parser(word, for_char);
+				parser(word);
 			} else if(word_len != 1) {
-				parser(word, '0');
+				parser(word);
 			}
-			for_char = BSZ;
 			word = (char*)malloc(100 * sizeof(char*));
 			word_len = 0;
 		}
